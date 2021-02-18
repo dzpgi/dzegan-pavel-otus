@@ -27,7 +27,7 @@ function maxItemAssociation(groups=[]) {
 
     // Создаем линейный массив всех продуктов
     let flatItems = groups.flat();
-    
+
     // flatScoresByGroup - количество групп с максимальным кол-вом продуктов, [['a', 'a']] продукт "a" считается купленным 1 раз
     // flatScoresByItem - простое количество продуктов, [['a', 'a']] продукт "a" считается купленным 2 раза
     // Не совсем понятные условия задачи, поэтому 2 варианта подсчета или по группам, или по товару вообще
@@ -67,7 +67,7 @@ function maxItemAssociation(groups=[]) {
             return group.includes(item);
         }));
     });
-    
+
     // Получаем группы с уникальными товарами
     let flatMaxGroups = [];
     maxGroups.forEach(function(groups) {
@@ -75,7 +75,7 @@ function maxItemAssociation(groups=[]) {
             return array.indexOf(item) === index;
         }).sort());
     });
-    
+
     // Сортировка
     // Получаем в каждой группе текущий продукт и сравниваем их(продукты) между собой
     // т.е. сравнить allArrays[0,0] с allArrays[1,0] ... и allArrays[N,0], потом allArrays[0,1] с allArrays[1,1] ... и allArrays[N,1] и т.д.
@@ -87,7 +87,7 @@ function maxItemAssociation(groups=[]) {
     function getFirstInSort(allArrays, itemIndex=0) {
 
         if (!allArrays || allArrays.length < 2) return  allArrays;
-        
+
         // Список текущих продуктов из каждой группы
         let currentItems = [];
         allArrays.forEach(function(array) {
@@ -102,18 +102,18 @@ function maxItemAssociation(groups=[]) {
         allArrays = allArrays.filter(function(groups, index, array) {
             return  groups[itemIndex] === sortedCurrentItems[0];
         });
-        
+
         // Если среди схожих по сортировке групп есть группа, которая пройдена до последнего товара, то это первая группа в сортировке
         for (var i=0; i<allArrays.length; i++) {
             var group = allArrays[i];
             if (itemIndex+1 === group.length) return group;
         }
-        
+
         // Переход к следующему товар в группах
         return getFirstInSort(allArrays, itemIndex+1);
     }
     let result = getFirstInSort(flatMaxGroups);
-    
+
     // Поэтапный вывод
     console.log('groups = ', groups);
     console.log('flatItems = ', flatItems);
@@ -125,7 +125,7 @@ function maxItemAssociation(groups=[]) {
     console.log('maxGroups = ', maxGroups);
     console.log('flatMaxGroups = ', flatMaxGroups);
     console.log('result = ', result);
- 
+
     return result;
 }
 
