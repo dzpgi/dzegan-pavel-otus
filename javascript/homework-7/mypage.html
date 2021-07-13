@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        Выберите товар:
+        <br/>
+        <br/>
+        <select id="product_types" onchange="doChangeType(this)"></select>
+        <select id="products" onchange="doChangeProduct(this)"></select>
+        <br/>
+        <br/>
+        <table id="info">
+            <tr>
+                <td >ИД:</td><td><input id="id" type="number"/></td>
+            </tr>
+            <tr>
+                <td>Название:</td><td><input id="name" type="text"/></td>
+            </tr>
+            <tr>
+                <td>Цена:</td><td><input id="price" type="number" /> <input id="currency" size="3"/></td>
+            </tr>
+        </table>
+        <br/>
+        <button onclick="doApply(this)">Применить</button>
+        <button onclick="doRemove(this)">Удалить</button>
+    </body>
+</html>
+<script>
+    const config = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" } };
+    async function doLoadTypes() {
+        let result = await fetch("http://localhost:3000/graphql", { ...config, body: JSON.stringify({ query: "{ getTypes {code name} }" })}).then(res => res.json());
+        let element = document.getElementById('product_types');
+        element.innerHTML = '';
+        let records = result.data.getTypes;
+        for(var i=0; i<records.length; i++) {
+            element.insertAdjacentHTML('beforeend', `<option value="${records[i].code}">${records[i].name}</options>`);
+        }
+        doChangeType(element);
+    }
+    async function doChangeType(select) {
+        const type = select.value;
+        let result = await fetch("http://localhost:3000/graphql", { ...config, body: JSON.stringify({ query: `{ getProducts(type: "${type}") {id name price currency specifications{diagonalValue diagonalUnit}} }`})}).then(res => res.json());
+        let element = document.getElementById('products');
+        element.innerHTML = '';
+        let records = result.data.getProducts;
+        element.productstore = records;
+        for(var i=0; i<records.length; i++) {
+            element.insertAdjacentHTML('beforeend', `<option value="${records[i].id}">${records[i].name}</options>`);
+        }
+        doChangeProduct(element);
+    }
+    function doChangeProduct(select) {
+        const data = select.productstore;
+        if (!data || data.length === 0) {
+            const inputs = document.querySelectorAll('#info input');
+            for (var i=0; i<inputs.length; i++)
+                inputs[i].value=null;
+        }
+        for(var i=0; i<data.length; i++) {
+            var record = data[i];
+            if (record.id !== select.value) continue;
+            for (var key in record) {
+                var input = document.getElementById(key);
+                if (input) input.value = record[key];
+            }
+        }
+    }
+    async function doApply(button) {
+        const inputs = document.querySelectorAll('#info input');
+        let params = '';
+        for (var i=0; i<inputs.length; i++) {
+            var value = inputs[i].type === 'number'? inputs[i].value: `"${inputs[i].value}"`;
+            if (value) params = `${params} ${inputs[i].id}: ${value}`;
+        }
+        const type = document.getElementById('product_types').value
+        params = `${params} type: "${type}"`;
+        let result = await fetch("http://localhost:3000/graphql", { ...config, body: JSON.stringify({ query: `mutation { setProduct(product: {${params}}) }` })}).then(res => res.json());
+        if (result.errors && result.errors[0].message) {
+            alert(result.errors[0].message);
+            return;
+        }
+        doChangeType(document.getElementById('product_types'))
+    }
+    async function doRemove(button) {
+        const id = document.querySelectorAll('#info input#id')[0].value;
+        let result = await fetch("http://localhost:3000/graphql", { ...config, body: JSON.stringify({ query: `mutation { removeProduct(id: ${id}) }` })}).then(res => res.json());
+        if (result.errors && result.errors[0].message) {
+            alert(result.errors[0].message);
+            return;
+        }
+        doChangeType(document.getElementById('product_types'))
+    }
+    doLoadTypes();
+</script>

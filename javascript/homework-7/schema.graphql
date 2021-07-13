@@ -1,0 +1,36 @@
+type ProductType {
+    code: String!
+    name: String!
+}
+
+type ProductSpecifications {
+    diagonalValue: Float
+    diagonalUnit: String
+    color: String
+}
+
+input SomeProduct {
+    id: ID!
+    name: String
+    price: Float
+    currency: String
+    type: String
+}
+type Product {
+    id: ID!
+    name: String!
+    price: Float
+    currency: String
+    type: String!
+    specifications: ProductSpecifications
+}
+
+type Query {
+    getTypes: [ProductType]!
+    getProducts(type: String!): [Product]!
+}
+
+type Mutation {
+    setProduct(product: SomeProduct): Boolean!
+    removeProduct(id: ID): Boolean!
+}
