@@ -1,0 +1,26 @@
+[
+    {
+        "code": "paris",
+        "name": "Париж"
+    },
+    {
+        "code": "berlin",
+        "name": "Берлин"
+    },
+    {
+        "code": "moscow",
+        "name": "Москва"
+    },
+    {
+        "code": "tokyo",
+        "name": "Токио"
+    },
+    {
+        "code": "peking",
+        "name": "Пекин"
+    },
+    {
+        "code": "sidney",
+        "name": "Сидней"
+    }
+]
