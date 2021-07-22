@@ -1,0 +1,44 @@
+[
+    {
+        "city": "moscow",
+        "temperature": "+35° С",
+        "windSpeed": "2 м/с",
+        "damp": "40 %",
+        "pression": "751 мм рт. ст."
+    },
+    {
+        "city": "berlin",
+        "temperature": "+45° С",
+        "windSpeed": "3 м/с",
+        "damp": "50 %",
+        "pression": "700 мм рт. ст."
+    },
+    {
+        "city": "paris",
+        "temperature": "+25° С",
+        "windSpeed": "10 м/с",
+        "damp": "45 %",
+        "pression": "1000 мм рт. ст."
+    },
+    {
+        "city": "tokyo",
+        "temperature": "+15° С",
+        "windSpeed": "1 м/с",
+        "damp": "20 %",
+        "pression": "733 мм рт. ст."
+    },
+    {
+        "city": "peking",
+        "temperature": "+35° С",
+        "windSpeed": "3 м/с",
+        "damp": "41 %",
+        "pression": "994 мм рт. ст."
+    },
+    {
+        "city": "sidney",
+        "temperature": "-15° С",
+        "windSpeed": "3.6 м/с",
+        "damp": "100 %",
+        "pression": "567 мм рт. ст."
+    }
+]
