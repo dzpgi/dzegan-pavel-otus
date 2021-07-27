@@ -1,0 +1,95 @@
+
+<h4>
+    <table>
+        <tr>
+            <td><a href="#" (click)="toPage('history')">Добавленные слова</a></td>
+            <td><a href="#" (click)="toPage('verification')">Проверка знаний</a></td>
+            <td><a href="#" (click)="toPage('settings')">Настройки 🛠</a></td>
+        </tr>
+    </table>
+</h4>
+
+
+<div *ngIf="pageName === 'history'">
+    <h3>Добавленные слова</h3>
+    <table>
+        <tr>
+            <td>
+                <app-list [data]="languages" [value]="newSysLanguage" (changed)="setNewSysLanguage($event)" ></app-list>
+            </td>
+            <td>
+                <input type="text" value="{{newSysText}}" (change)="changeNewSysText($event)" />
+            </td>
+            <td>
+                - <app-list [data]="languages" [value]="newUserLanguage" (changed)="setNewUserLanguage($event)" ></app-list>
+            </td>
+            <td>
+                <input type="text" value="{{newUserText}}" (change)="changeNewUserText($event)" />
+            </td>
+            <td>
+                <button (click)="applyNewText()" >Применить</button>
+            </td>
+        </tr>
+    </table>
+    <table *ngIf="languages.length>0" style="border: 1px solid black;">
+        <tr style="background: gray">
+            <td>English</td><td>Русский</td>
+        </tr>
+        <tr *ngFor="let dictionaryword of dictionary">
+            <td>{{dictionaryword.eng}}</td><td>{{dictionaryword.rus}}</td>
+        </tr>
+    </table>
+</div>
+
+
+<div *ngIf="pageName === 'verification'">
+    <h3>Проверка знаний</h3>
+    <button *ngIf="!remainingTime" (click)="runVerification()">Запустить тест</button>
+    <div *ngIf="remainingTime">Прошло времени: {{verificationPercent}} %</div>
+    <div *ngIf="remainingTime">Количество слов: {{verificationTextIndex}} из {{verificationTextCount}}</div>
+    <table>
+        <tr>
+            <td>
+                <button (click)="refreshSysText()" >Обновить слово</button>
+            </td>
+            <td>
+                <app-list [data]="languages" [value]="sysLanguage" (changed)="setSysLanguage($event)"></app-list>
+            </td>
+            <td>
+                <input type="text" value="{{sysText}}" disabled />
+            </td>
+            <td>
+                - <app-list [data]="languages" [value]="userLanguage" (changed)="setUserLanguage($event)"></app-list>
+            </td>
+            <td>
+                <input type="text" value="{{userText}}" (change)="changeUserText($event)" />
+            </td>
+            <td>
+                <button (click)="checkTranslate()" >Проверить</button>
+            </td>
+            <td *ngIf="userTextCorrectly === true" style="color: green; font-weight: 600;">
+                Верно ✓
+            </td>
+            <td *ngIf="userTextCorrectly === false" style="color: red; font-weight: 600;">
+                Ошибка ✗
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div *ngIf="pageName === 'settings'">
+    <h3>Настройки 🛠</h3>
+    <table>
+        <tr>
+            <td>Количесво слов:</td>
+            <td><input value="{{verificationTextCount}}" (change)="setVerificationTextCount($event)" /></td>
+        </tr>
+        <tr>
+            <td>Время на проверку:</td>
+            <td>
+                <app-list [data]="verificationTimes" [value]="verificationTime.toString()" (changed)="setVerificationTime($event)"></app-list>
+            </td>
+        </tr>
+    </table>
+</div>
