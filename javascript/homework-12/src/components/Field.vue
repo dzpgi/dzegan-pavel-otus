@@ -1,16 +1,18 @@
 <template>
-  <input
-    ref="field"
-    :id="id"
-    :value="value"
-    @input="onInput"
-    @focus="onFocus"
-    :disabled="disabled"
-    :autofocus="autofocus"
-    class="field"
-  >
-  <div v-if="errorMessage" class="error">{{errorMessage}}</div>
-  <div v-if="valid === 'true' || valid === true" class="correct">Верно</div>
+  <div>
+    <input
+      ref="field"
+      :id="id"
+      :value="value"
+      @input="onInput"
+      @focus="onFocus"
+      :disabled="disabled"
+      :autofocus="autofocus"
+      class="field"
+    >
+    <div v-if="errorMessage" class="error">{{errorMessage}}</div>
+    <div v-if="valid === 'true' || valid === true" class="correct">Верно</div>
+  </div>
 </template>
 
 <style scoped>
@@ -31,57 +33,50 @@
 </style>
 
 <script>
-/* eslint-disable */
-
-import {ref, toRefs, computed} from 'vue'
+import { ref, toRefs, computed } from 'vue'
 
 export default {
   name: 'Field',
   emits: ['update:value', 'update:focus', 'focus'],
   props: {
-    value: String|Number,
+    value: { type: [String, Number] },
     id: String,
-    valid: String|Boolean,
-    disabled:  {type: Boolean, default: false},
-    autofocus: {type: Boolean, default: false}
+    valid: { type: [String, Boolean] },
+    disabled: { type: Boolean, default: false },
+    autofocus: { type: Boolean, default: false }
   },
-  mounted: function(){
+  mounted: function () {
     if (this.autofocus) this.$refs.field.focus()
   },
-  updated: function(){
+  updated: function () {
     if (this.autofocus) this.$refs.field.focus()
   },
 
-  setup(props, { attrs, slots, emit }) {
-    const { value, id, autofocus, disabled, focus, valid} = toRefs(props)
+  setup (props, { emit }) {
+    const { value, valid } = toRefs(props)
     const field = ref()
-    const borderColor = ref(valid.value === true || valid.value === 'true'? 'green': (valid.value? 'red': ''))
+    const borderColor = ref(valid.value === true || valid.value === 'true' ? 'green' : (valid.value ? 'red' : ''))
 
-    const errorMessage = computed(function() {
-      return typeof(valid.value) === 'string' && (valid.value !== 'true' || valid.value !== 'false')? valid.value: null
+    const errorMessage = computed(function () {
+      return typeof (valid.value) === 'string' && (valid.value !== 'true' || valid.value !== 'false') ? valid.value : null
     })
 
-    const onInput = function(e) {
+    const onInput = function (e) {
       value.value = e.target.value
       emit('update:value', e.target.value)
     }
 
-    const onFocus = function(e) {
+    const onFocus = function (e) {
       emit('focus', e)
     }
 
     return {
-      valid,
       errorMessage,
       borderColor,
       field,
-      id,
-      autofocus,
-      value,
-      disabled,
       onInput,
       onFocus
     }
-  },
+  }
 }
 </script>

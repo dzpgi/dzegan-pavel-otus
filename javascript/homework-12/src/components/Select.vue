@@ -7,38 +7,30 @@
 </template>
 
 <script>
-/* eslint-disable */
-import {ref, toRefs, reactive, watch, computed} from 'vue'
+import { ref, toRefs } from 'vue'
 
 export default ({
   name: 'Select',
   emits: ['update:value'],
   props: {
     data: Array,
-    value: String,
-    code: {type: String, default: 'code'},
-    display: {type: String, default: 'text'}
+    value: { type: [String, Number] },
+    code: { type: String, default: 'code' },
+    display: { type: String, default: 'text' }
   },
-  setup(props, { attrs, slots, emit }) {
-
-    const { data, code, display, value} = toRefs(props)
+  setup (props, { emit }) {
+    const { value } = toRefs(props)
     const selected = ref(value.value)
-    const onChange = function(e) {
+    const onChange = function (e) {
       value.value = e.target.value
       emit('update:value', e.target.value)
     }
 
     return {
       selected,
-      value,
-      data,
-      code,
-      display,
       onChange
     }
-  },
+  }
 })
 
-
 </script>
-
