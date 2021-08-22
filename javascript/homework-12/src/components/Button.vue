@@ -1,5 +1,5 @@
 <template>
-  <a class="btn" href="#" @click.stop.prevent="onClick" :disabled="disabled">{{text}}</a>
+  <button class="btn" href="#" @click.stop.prevent="onClick" :disabled="disabled">{{text}}</button>
 </template>
 
 <style scoped>
@@ -13,30 +13,27 @@
 </style>
 
 <script>
-/* eslint-disable */
-import {ref, toRefs, reactive, watch, computed} from 'vue'
+import { toRefs, computed } from 'vue'
 export default {
   name: 'Button',
   props: {
     text: String,
     color: String,
-    disabled: String|Boolean
+    disabled: { type: [String, Boolean] }
   },
   emits: ['click'],
-  setup(props, { attrs, slots, emit }) {
+  setup (props, { emit }) {
+    const { color, disabled } = toRefs(props)
 
-    const { text, color, disabled } = toRefs(props)
+    const bgColor = computed(() => disabled.value === true || disabled.value === 'true' ? 'silver' : (color.value ? color.value : 'SteelBlue'))
 
-    const bgColor = computed(()=>disabled.value === true || disabled.value === 'true'? 'silver': (color.value? color.value: 'SteelBlue'))
-
-    const onClick = function(e) {
+    const onClick = function (e) {
       if (!disabled.value) emit('click')
       // Дополнительная логика
     }
     return {
       bgColor,
-      text,
-      onClick,
+      onClick
     }
   }
 }
