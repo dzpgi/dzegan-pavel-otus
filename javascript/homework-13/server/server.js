@@ -42,7 +42,7 @@ const directions = [
 
 // Настройка задержки ответа сервера
 const rnd = function (max) {
-  return Math.floor((Math.random()*(max? max: 7000)) + 0)
+  return Math.floor((Math.random()*(max? max: 3000)) + 0)
 }
 
 // Переход к следующей странице
@@ -88,6 +88,4 @@ app.use(function (request, response, next) {
   response.status(404).send({ errorMessage: 'Обращение к неизвестному сервису' })
 })
 
-app.listen(3000, function () {
-  console.log('Демонстрационная страница: http://localhost:3000/page')
-})
+app.listen(3000, function () { })

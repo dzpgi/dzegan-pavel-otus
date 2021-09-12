@@ -33,9 +33,6 @@ import BottomPanel from '@/views/BottomPanel'
 import TopPanel from '@/views/TopPanel'
 
 export default ({
-  components: { TopPanel, BottomPanel },
-  setup () {
-    console.log('BOTTOM PANEL')
-  }
+  components: { TopPanel, BottomPanel }
 })
 </script>
