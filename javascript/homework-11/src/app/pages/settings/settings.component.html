@@ -1,0 +1,13 @@
+<h3>Настройки 🛠</h3>
+<table>
+    <tr>
+        <td>Количесво слов:</td>
+        <td><input [(ngModel)]="verificationTextCount" (input)="setVerificationTextCount()" /></td>
+    </tr>
+    <tr>
+        <td>Время на проверку:</td>
+        <td>
+            <app-list [data]="verificationTimes" [value]="verificationTime.toString()" (changed)="setVerificationTime($event)"></app-list>
+        </td>
+    </tr>
+</table>

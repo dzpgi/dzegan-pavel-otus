@@ -1,0 +1,5 @@
+<select (change)="onChangeValue($event)">
+    <option *ngFor="let record of records" value="{{record.code}}" selected="{{record.code == value? 'selected': ''}}">
+        {{record.name}}
+    </option>
+</select>
