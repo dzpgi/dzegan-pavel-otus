@@ -1,0 +1,4 @@
+<input type="text" value="{{value}}" [formControl]="input" />
+<div *ngIf="input.errors" class="errorText">
+    <div *ngFor="let error of input.errors | keyvalue">{{error.value}}</div>
+</div>

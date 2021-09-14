@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <h4>
+      <table>
+          <tr>
+              <td><a routerLink="/dictionary" routerLinkActive="active">Словарь</a></td>
+              <td><a routerLink="/verification" routerLinkActive="active">Проверка</a></td>
+              <td><a routerLink="/settings" routerLinkActive="active">Настройки 🛠</a></td>
+          </tr>
+      </table>
+    </h4>
+    <div [@routeAnimation]="getAnimationData(routerOutlet)">
+        <router-outlet #routerOutlet="outlet"></router-outlet>
+    </div>
+</div>

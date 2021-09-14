@@ -1,0 +1,28 @@
+<h3>Добавленные слова</h3>
+<table>
+    <tr>
+        <td>
+            <app-list [data]="languages" [(value)]="newSysLanguage"></app-list>
+        </td>
+        <td>
+            <input type="text" [(ngModel)]="newSysText" [formControl]="newSysTextFC" />
+        </td>
+        <td>
+            - <app-list [data]="languages" [(value)]="newUserLanguage"></app-list>
+        </td>
+        <td>
+            <input type="text" [(ngModel)]="newUserText" [formControl]="newUserTextFC"/>
+        </td>
+        <td>
+            <button (click)="applyNewText()" [disabled]="loading ? 'disabled' : ''">Применить</button>
+        </td>
+    </tr>
+</table>
+<table *ngIf="languages.length>0" style="border: 1px solid black;">
+    <tr style="background: gray">
+        <td>English</td><td>Русский</td>
+    </tr>
+    <tr *ngFor="let similarWord of similarDictionary">
+        <td>{{similarWord.eng}}</td><td>{{similarWord.rus}}</td>
+    </tr>
+</table>

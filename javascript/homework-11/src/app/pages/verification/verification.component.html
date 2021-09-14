@@ -1,0 +1,32 @@
+<h3>Проверка знаний</h3>
+<button *ngIf="!remainingTime" (click)="runVerification()" [disabled]="loading ? 'disabled' : ''">Запустить тест</button>
+<div *ngIf="remainingTime">Прошло времени: {{verificationPercent}} %</div>
+<div *ngIf="remainingTime">Количество слов: {{verificationTextIndex}} из {{verificationTextCount}}</div>
+<table>
+    <tr>
+        <td>
+            <button (click)="refreshSysText()" [disabled]="loading ? 'disabled' : ''">Обновить слово</button>
+        </td>
+        <td>
+            <app-list [data]="languages" [(value)]="sysLanguage"></app-list>
+        </td>
+        <td>
+            <input type="text" value="{{sysText}}" disabled />
+        </td>
+        <td>
+            - <app-list [data]="languages" [(value)]="userLanguage"></app-list>
+        </td>
+        <td>
+            <app-word type="text" [(value)]="userText" ></app-word>
+        </td>
+        <td>
+            <button #translateBtn [disabled]="loading ? 'disabled' : ''">Проверить</button>
+        </td>
+        <td *ngIf="userTextCorrectly === true" style="color: green; font-weight: 600;">
+            Верно ✓
+        </td>
+        <td *ngIf="userTextCorrectly === false" style="color: red; font-weight: 600;">
+            Ошибка ✗
+        </td>
+    </tr>
+</table>
